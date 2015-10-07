@@ -8,6 +8,7 @@ var express = require('express'),
   bodyParser = require('body-parser'),
   session = require('express-session'),
   routes = require('./server/routes'),
+  methodOverride = require('method-override'),
   app = express();
 
 // view engine setup
@@ -21,6 +22,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
+
+// override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
+app.use(methodOverride('X-HTTP-Method-Override'));
+
 app.use(cookieParser());
 // not using express less
 // app.use(require('less-middleware')(path.join(__dirname, 'public')));
