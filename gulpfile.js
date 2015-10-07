@@ -27,11 +27,31 @@ var gulp = require('gulp'),
       '!app/images/**/*',
       'app/**/*.*'
     ],
-    unitTests: [],
-    libTests: ['lib/tests/**/*.js'],
+    unitTests: [
+      'public/vendor/angular/angular.min.js',
+      'public/vendor/angular-ui-router/release/angular-ui-router.min.js',
+      'public/js/application.js',
+      'tests/unit/**/*.spec.js'
+    ],
+    libTests: ['public/vendor/tests/**/*.js'],
     styles: 'app/styles/**/*.+(less|css)'
   };
 
+
+gulp.task('test', function() {
+  // Be sure to return the stream
+  return gulp.src(paths.unitTests)
+    .pipe(karma({
+      configFile: __dirname + '/karma.conf.js',
+      // autoWatch: false,
+      // singleRun: true
+      action: 'run'
+    }))
+    .on('error', function(err) {
+      // Make sure failed tests cause gulp to exit non-zero
+      throw err;
+    });
+});
 
 gulp.task('less', function() {
   gulp.src(paths.styles)
@@ -72,7 +92,7 @@ gulp.task('images', function() {
 
 gulp.task('bower', function() {
   return bower()
-    .pipe(gulp.dest('public/lib/'));
+    .pipe(gulp.dest('public/vendor/'));
 });
 
 gulp.task('browserify', function() {
