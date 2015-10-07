@@ -188,4 +188,4 @@ gulp.task('production', ['nodemon', 'build']);
 gulp.task('default', ['nodemon', 'watch', 'build']);
 
 // While in development use this
-gulp.task('beer', ['nodemon', 'watch', 'build', 'browser-sync']);
+gulp.task('beer', ['default', 'browser-sync']);
