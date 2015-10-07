@@ -17,6 +17,7 @@ var gulp = require('gulp'),
   imagemin = require('gulp-imagemin'),
   browserSync = require('browser-sync'),
   nodemon = require('gulp-nodemon'),
+  protractor = require("gulp-protractor").protractor,
   paths = {
     public: 'public/**',
     jade: ['!app/includes/*.jade', 'app/**/*.jade'],
@@ -50,6 +51,18 @@ gulp.task('test', function() {
     .on('error', function(err) {
       // Make sure failed tests cause gulp to exit non-zero
       throw err;
+    });
+});
+
+gulp.task('e2e', function(done) {
+  var args = ['--baseUrl', 'http://127.0.0.1:3880'];
+  gulp.src(["./tests/e2e/*.js"])
+    .pipe(protractor({
+      configFile: "protractor.conf.js",
+      args: args
+    }))
+    .on('error', function(e) {
+      throw e;
     });
 });
 
@@ -129,7 +142,7 @@ gulp.task('browser-sync', function() {
     proxy: "http://localhost:3000",
     files: ["public/**/*.*"],
     browser: "google chrome",
-    port: 7878,
+    port: 3880,
   });
 });
 
@@ -148,7 +161,7 @@ gulp.task('nodemon', function() {
     .on('restart', function() {
       console.log('>> node restart');
     })
-    .on('start', function() {
+    .on('start', function(cb) {
       // to avoid nodemon being started multiple times
       // thanks @matthisk
       if (!started) {
