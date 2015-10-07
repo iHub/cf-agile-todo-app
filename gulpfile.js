@@ -17,6 +17,7 @@ var gulp = require('gulp'),
   imagemin = require('gulp-imagemin'),
   browserSync = require('browser-sync'),
   nodemon = require('gulp-nodemon'),
+  karma = require('gulp-karma'),
   paths = {
     public: 'public/**',
     jade: ['!app/includes/*.jade', 'app/**/*.jade'],
