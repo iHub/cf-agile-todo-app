@@ -1,6 +1,6 @@
 // require('./base')();
-require('../lib/angular/angular.min');
-require('../lib/angular-ui-router/release/angular-ui-router.min');
+require('angular');
+require('angular-ui-router');
 
 (function() {
   'use strict';
@@ -27,7 +27,7 @@ require('../lib/angular-ui-router/release/angular-ui-router.min');
           url: '/',
           controller: function($scope) {},
           templateUrl: 'views/home.html'
-        })
+        });
 
       $locationProvider.html5Mode(true);
     }

@@ -3,12 +3,36 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "build": "gulp heroku:production"
   },
+  "browser": {
+    "angular": "public/vendor/angular/angular.min'",
+    "angular-ui-router": "public/vendor/angular-ui-router/release/angular-ui-router.min"
+  },
+  "browserify-shim": {
+    "angular": "angular",
+    "angular-ui-router": "ui.router"
+  },
+  "browserify": {
+    "transform": ["browserify-shim"]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kn9ts/agile-todoapp.git"
+  },
+  "author": "NM",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kn9ts/agile-todoapp/issues"
+  },
+  "homepage": "https://github.com/kn9ts/agile-todoapp#readme",
   "dependencies": {
     "body-parser": "~1.13.2",
     "browser-sync": "^2.9.10",
     "browserify": "^11.2.0",
+    "browserify-shim": "^3.8.10",
     "cookie-parser": "~1.3.5",
     "debug": "~2.2.0",
     "express": "~4.13.1",
@@ -39,5 +63,8 @@
     "serve-favicon": "~2.3.0",
     "stringify": "^3.1.0",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "engines": {
+    "node": ">=0.12.5"
   }
 }

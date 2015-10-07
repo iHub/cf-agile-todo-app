@@ -32,13 +32,6 @@ var gulp = require('gulp'),
     styles: 'app/styles/**/*.+(less|css)'
   };
 
-// gulp.task('less', function() {
-//  gulp.src(paths.styles)
-//    .pipe(less({
-//      paths: [path.join(__dirname, './app/styles')]
-//    }))
-//    .pipe(gulp.dest('./public/css'));
-// });
 
 gulp.task('less', function() {
   gulp.src(paths.styles)
@@ -149,7 +142,7 @@ gulp.task('watch', function() {
   // livereload.listen({ port: 35729 });
   gulp.watch(paths.jade, ['jade', 'bs-reload']);
   gulp.watch(paths.styles, ['less', 'bs-reload']);
-  gulp.watch(paths.scripts, ['browserify', 'bs-reload']);
+  gulp.watch(paths.scripts, ['lint', 'browserify', 'bs-reload']);
   gulp.watch(['./gulpfile.js'], ['build']);
   // gulp.watch(paths.public).on('change', livereload.changed);
 });
@@ -160,5 +153,5 @@ gulp.task('heroku:staging', ['build']);
 gulp.task('production', ['nodemon', 'build']);
 gulp.task('default', ['nodemon', 'watch', 'build']);
 
-// to be used when testing locally
+// While in development use this
 gulp.task('beer', ['nodemon', 'watch', 'build', 'browser-sync']);
