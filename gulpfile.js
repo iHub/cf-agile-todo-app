@@ -18,7 +18,7 @@ var gulp = require('gulp'),
   browserSync = require('browser-sync'),
   nodemon = require('gulp-nodemon'),
   karma = require('gulp-karma'),
-  protractor = require("gulp-protractor").protractor,
+  protractor = require('gulp-protractor').protractor,
   paths = {
     public: 'public/**',
     jade: ['!app/includes/*.jade', 'app/**/*.jade'],
@@ -57,9 +57,9 @@ gulp.task('test', function() {
 
 gulp.task('e2e', function(done) {
   var args = ['--baseUrl', 'http://127.0.0.1:3880'];
-  gulp.src(["./tests/e2e/*.js"])
+  gulp.src(['./tests/e2e/*.js'])
     .pipe(protractor({
-      configFile: "protractor.conf.js",
+      configFile: 'protractor.conf.js',
       args: args
     }))
     .on('error', function(e) {
@@ -140,9 +140,9 @@ gulp.task('static-files', function() {
 
 gulp.task('browser-sync', function() {
   browserSync.init(null, {
-    proxy: "http://localhost:3000",
-    files: ["public/**/*.*"],
-    browser: "google chrome",
+    proxy: 'http://localhost:3000',
+    files: ['public/**/*.*'],
+    browser: 'google chrome',
     port: 3880,
   });
 });
