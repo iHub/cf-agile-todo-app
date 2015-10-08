@@ -7,7 +7,7 @@
   "forin": true,
   "immed": true,
   "latedef": "nofunc",
-  "maxlen": 100,
+  "maxlen": 110,
   "newcap": true,
   "noarg": true,
   "noempty": true,
@@ -27,7 +27,11 @@
     "process",
     "__dirname",
     "console",
-    "require"
+    "require",
+    "exports",
+    "element",
+    "by",
+    "browser"
   ],
   "quotmark": true,
   "trailing": true,
