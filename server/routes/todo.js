@@ -22,7 +22,7 @@ module.exports = function(app, config) {
   });
 
   /**
-   * Show the form for creating a new subscribers.
+   * Show the form for creating a new todo list item.
    * GET /api/todo/create
    */
   allTodos.get(function create(request, response) {
@@ -30,7 +30,7 @@ module.exports = function(app, config) {
   });
 
   /**
-   * Store a newly created subscribers in storage.
+   * Store a newly created todo list item in storage.
    * POST /api/todo
    */
   allTodos.get(function store(request, response) {
@@ -38,7 +38,7 @@ module.exports = function(app, config) {
   });
 
   /**
-   * Display the specified subscribers.
+   * Display the specified todo list item.
    * GET /api/todo/{id}
    */
   oneTodo.get(function show(request, response) {
@@ -53,7 +53,7 @@ module.exports = function(app, config) {
   });
 
   /**
-   * Show the form for editing the specified subscribers.
+   * Show the form for editing the specified todo list item.
    * GET /api/todo/{id}/edit
    */
   oneTodo.get(function create(request, response) {
@@ -61,7 +61,7 @@ module.exports = function(app, config) {
   });
 
   /**
-   * Update the specified subscribers in storage.
+   * Update the specified todo list item in storage.
    * PUT /api/todo/{id}
    */
   oneTodo.put(function update(request, response) {
@@ -77,7 +77,7 @@ module.exports = function(app, config) {
   });
 
   /**
-   * Remove the specified subscribers from storage.
+   * Remove the specified todo list item from storage.
    * DELETE /api/todo/{id}
    */
   oneTodo.delete(function remove(request, response) {
