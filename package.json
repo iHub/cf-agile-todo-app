@@ -8,12 +8,12 @@
     "build": "gulp heroku:production"
   },
   "browser": {
-    "angular": "public/vendor/angular/angular.min'",
-    "angular-ui-router": "public/vendor/angular-ui-router/release/angular-ui-router.min"
+    "angular": "./public/vendor/angular/angular.min.js",
+    "angular-ui-router": "./public/vendor/angular-ui-router/release/angular-ui-router.min.js"
   },
   "browserify-shim": {
     "angular": "angular",
-    "angular-ui-router": "ui.router"
+    "angular-ui-router": "uiRouter"
   },
   "browserify": {
     "transform": [
