@@ -7,6 +7,11 @@ require('angular-ui-router');
 
   window.app = angular.module('todoapp', []);
 
+  var testControllers = require('./controllers/test.controller');
+
+  todoapp.controller('TestOneController', testControllers.one);
+  todoapp.controller('TestTwoController', testControllers.two);
+
   todoapp.controller('listing', require('./services/list.service'));
   todoapp.controller('TodoAppController', ['$scope', '$rootScope', 'listing', require('./controllers/app.controller')]);
 
