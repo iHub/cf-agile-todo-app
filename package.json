@@ -12,13 +12,10 @@
     "angular-ui-router": "./public/vendor/angular-ui-router/release/angular-ui-router.min.js"
   },
   "browserify-shim": {
-    "angular": "angular",
-    "angular-ui-router": "uiRouter"
+    "angular": "angular"
   },
   "browserify": {
-    "transform": [
-      "browserify-shim"
-    ]
+    "transform": ["browserify-shim"]
   },
   "repository": {
     "type": "git",
