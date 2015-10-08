@@ -9,6 +9,7 @@ require('angular-ui-router');
 
   todoapp.controller('listing', require('./services/list.service'));
   todoapp.controller('TodoAppController', ['$scope', '$rootScope', 'listing', require('./controllers/app.controller')]);
+  todoapp.controller('TodoController', ['$scope', 'listing', require('./controllers/todo.controller')]);
 
   window.app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     function($stateProvider, $urlRouterProvider, $locationProvider) {
