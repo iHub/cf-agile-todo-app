@@ -17,6 +17,7 @@ var gulp = require('gulp'),
   imagemin = require('gulp-imagemin'),
   browserSync = require('browser-sync'),
   nodemon = require('gulp-nodemon'),
+  karma = require('gulp-karma'),
   protractor = require("gulp-protractor").protractor,
   paths = {
     public: 'public/**',
@@ -45,7 +46,7 @@ gulp.task('test', function() {
     .pipe(karma({
       configFile: __dirname + '/karma.conf.js',
       // autoWatch: false,
-      // singleRun: true
+      singleRun: true,
       action: 'run'
     }))
     .on('error', function(err) {
