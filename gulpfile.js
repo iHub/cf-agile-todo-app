@@ -18,6 +18,7 @@ var gulp = require('gulp'),
   browserSync = require('browser-sync'),
   nodemon = require('gulp-nodemon'),
   karma = require('gulp-karma'),
+  protractor = require('gulp-protractor').protractor,
   paths = {
     public: 'public/**',
     jade: ['!app/includes/*.jade', 'app/**/*.jade'],
@@ -45,12 +46,24 @@ gulp.task('test', function() {
     .pipe(karma({
       configFile: __dirname + '/karma.conf.js',
       // autoWatch: false,
-      // singleRun: true
+      singleRun: true,
       action: 'run'
     }))
     .on('error', function(err) {
       // Make sure failed tests cause gulp to exit non-zero
       throw err;
+    });
+});
+
+gulp.task('e2e', function(done) {
+  var args = ['--baseUrl', 'http://127.0.0.1:3880'];
+  gulp.src(['./tests/e2e/*.js'])
+    .pipe(protractor({
+      configFile: 'protractor.conf.js',
+      args: args
+    }))
+    .on('error', function(e) {
+      throw e;
     });
 });
 
@@ -127,10 +140,10 @@ gulp.task('static-files', function() {
 
 gulp.task('browser-sync', function() {
   browserSync.init(null, {
-    proxy: "http://localhost:3000",
-    files: ["public/**/*.*"],
-    browser: "google chrome",
-    port: 7878,
+    proxy: 'http://localhost:3000',
+    files: ['public/**/*.*'],
+    browser: 'google chrome',
+    port: 3880,
   });
 });
 
@@ -149,7 +162,7 @@ gulp.task('nodemon', function() {
     .on('restart', function() {
       console.log('>> node restart');
     })
-    .on('start', function() {
+    .on('start', function(cb) {
       // to avoid nodemon being started multiple times
       // thanks @matthisk
       if (!started) {
@@ -175,4 +188,4 @@ gulp.task('production', ['nodemon', 'build']);
 gulp.task('default', ['nodemon', 'watch', 'build']);
 
 // While in development use this
-gulp.task('beer', ['nodemon', 'watch', 'build', 'browser-sync']);
+gulp.task('beer', ['default', 'browser-sync']);
