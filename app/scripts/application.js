@@ -3,28 +3,35 @@ var angular = require('angular');
 require('angular-ui-router');
 require('angular-resource');
 
-(function() {
-  'use strict';
+var todoapp = angular.module('todoapp', ['ui.router']);
 
-  window.app = angular.module('todoapp', []);
+todoapp.factory('Todos', ['$resource', require('./factories/todo.resource')]);
+todoapp.controller('AppController', ['$scope', require('./controllers/app.controller')]);
+todoapp.controller('TodoController', ['$scope', 'Todos', require('./controllers/todo.controller')]);
 
-  todoapp.factory('Todos', ['$resource', require('./factories/todo.resource')]);
-  todoapp.controller('AppController', ['$scope', require('./controllers/app.controller')]);
-  todoapp.controller('TodoController', ['$scope', 'Todos', require('./controllers/todo.controller')]);
+todoapp.config(['$stateProvider', '$urlRouterProvider',
+  function($stateProvider, $urlRouterProvider) {
 
-  window.app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
-    function($stateProvider, $urlRouterProvider, $locationProvider) {
-      // For any unmatched url, redirect to / (root route)
-      $urlRouterProvider.otherwise('/');
+    var Route = $stateProvider;
+    // For any unmatched url, redirect to / (root route)
+    $urlRouterProvider.otherwise('/');
 
-      $stateProvider
-        .state('home', {
-          url: '/',
-          controller: 'TodoController',
-          templateUrl: 'views/home.html'
-        });
-
-      $locationProvider.html5Mode(true);
-    }
-  ]);
-})();
+    Route.state('home', {
+      url: '/',
+      views: {
+        '': {
+          templateUrl: 'views/main.html',
+          controller: 'AppController'
+        },
+        // 'headerContent@home': {
+        //   templateUrl: 'views/todo-list.html',
+        //   controller: 'TodoController'
+        // },
+        'todolist@home': {
+          templateUrl: 'views/todo-list.html',
+          controller: 'TodoController'
+        }
+      }
+    });
+  }
+]);
