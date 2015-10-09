@@ -7,6 +7,8 @@ var gulp = require('gulp'),
   jade = require('gulp-jade'),
   bower = require('gulp-bower'),
   gutil = require('gulp-util'),
+  jshint = require('gulp-jshint'),
+  jshint_stylish = require('jshint-stylish'),
   uglify = require('gulp-uglify'),
   cache = require('gulp-cache'),
   path = require('path'),
@@ -154,9 +156,6 @@ gulp.task('browserify', ['clean-scripts'], function() {
 });
 
 gulp.task('lint', function() {
-  var jshint = require('jshint'),
-    jshint_stylish = require('jshint-stylish');
-
   return gulp.src(['./app/**/*.js', './index.js', './server/**/*.js', './tests/**/*.js'])
     // .pipe(jshint())
     .pipe(jshint('.jshintrc'))
