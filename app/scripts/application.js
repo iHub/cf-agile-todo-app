@@ -3,7 +3,7 @@ var angular = require('angular');
 require('angular-ui-router');
 require('angular-resource');
 
-var todoapp = angular.module('todoapp', ['ui.router']);
+var todoapp = angular.module('todoapp', ['ui.router', 'ngResource']);
 
 todoapp.factory('Todos', ['$resource', require('./factories/todo.resource')]);
 todoapp.controller('AppController', ['$scope', require('./controllers/app.controller')]);
