@@ -72,7 +72,7 @@ gulp.task('e2e', function(done) {
     });
 });
 
-gulp.task('less', ['clean-styles'], function() {
+gulp.task('less', function() {
   gulp.src(paths.styles)
     .pipe(plumber({
       errorHandler: function(error) {
@@ -132,7 +132,7 @@ gulp.task('clean-scripts', function() {
     .pipe(require('gulp-clean')());
 });
 
-gulp.task('browserify', ['clean-scripts'], function() {
+gulp.task('browserify', function() {
   var b = browserify({
     entries: './app/scripts/application.js',
     debug: true,
@@ -219,11 +219,13 @@ gulp.task('watch', function() {
   // gulp.watch(paths.public).on('change', livereload.changed);
 });
 
-gulp.task('build', ['jade', 'less', 'static-files', 'images', 'browserify', 'bower', ]);
+
+gulp.task('build', ['jade', 'less', 'static-files', 'images', 'browserify', 'bower', 'bs-reload']);
 gulp.task('heroku:production', ['build']);
 gulp.task('heroku:staging', ['build']);
 gulp.task('production', ['nodemon', 'build']);
 gulp.task('default', ['nodemon', 'watch', 'build']);
 
 // While in development use this
-gulp.task('beer', ['default', 'browser-sync']);
+gulp.task('clean', ['clean-scripts', 'clean-styles']);
+gulp.task('beer', ['clean', 'default', 'browser-sync']);
