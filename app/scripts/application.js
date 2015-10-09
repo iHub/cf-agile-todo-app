@@ -1,5 +1,5 @@
 // require('./base')();
-require('angular');
+var angular = require('angular');
 require('angular-ui-router');
 require('angular-resource');
 

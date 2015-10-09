@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 0",
+    "test": "gulp test",
     "build": "gulp heroku:production"
   },
   "browser": {
@@ -18,9 +18,7 @@
     "angular-resource": "resource"
   },
   "browserify": {
-    "transform": [
-      "browserify-shim"
-    ]
+    "transform": ["browserify-shim"]
   },
   "repository": {
     "type": "git",
@@ -54,6 +52,7 @@
     "gulp-nodemon": "^2.0.4",
     "gulp-path": "^2.0.2",
     "gulp-plumber": "^1.0.1",
+    "gulp-protractor": "^1.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.4.1",
     "gulp-util": "^3.0.6",
@@ -68,6 +67,7 @@
     "morgan": "~1.6.1",
     "pg": "^4.4.2",
     "pg-hstore": "^2.3.2",
+    "protractor": "^2.5.0",
     "sequelize": "^3.11.0",
     "serve-favicon": "~2.3.0",
     "stringify": "^3.1.0",
