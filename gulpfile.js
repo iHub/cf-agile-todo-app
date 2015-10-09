@@ -7,18 +7,24 @@ var gulp = require('gulp'),
   jade = require('gulp-jade'),
   bower = require('gulp-bower'),
   gutil = require('gulp-util'),
-  jshint = require('jshint'),
+  jshint = require('gulp-jshint'),
   jshint_stylish = require('jshint-stylish'),
   uglify = require('gulp-uglify'),
   cache = require('gulp-cache'),
-  browserify = require('browserify'),
   path = require('path'),
+  browserify = require('browserify'),
+  ngAnnotate = require('browserify-ngannotate'),
   source = require('vinyl-source-stream'),
+  buffer = require('vinyl-buffer'),
+  uglify = require('gulp-uglify'),
+  sourcemaps = require('gulp-sourcemaps'),
+  CacheBuster = require('gulp-cachebust'),
   imagemin = require('gulp-imagemin'),
   browserSync = require('browser-sync'),
   nodemon = require('gulp-nodemon'),
   karma = require('gulp-karma'),
   protractor = require('gulp-protractor').protractor,
+  cachebust = new CacheBuster(),
   paths = {
     public: 'public/**',
     jade: ['!app/includes/*.jade', 'app/**/*.jade'],
@@ -36,9 +42,8 @@ var gulp = require('gulp'),
       'tests/unit/**/*.spec.js'
     ],
     libTests: ['public/vendor/tests/**/*.js'],
-    styles: 'app/styles/**/*.+(less|css)'
+    styles: 'app/styles/*.+(less|css)'
   };
-
 
 gulp.task('test', function() {
   // Be sure to return the stream
@@ -75,6 +80,7 @@ gulp.task('less', function() {
         this.emit('end');
       }
     }))
+    .pipe(sourcemaps.init())
     .pipe(less())
     .pipe(autoprefixer('last 2 versions'))
     .pipe(gulp.dest('public/css/'))
@@ -82,6 +88,9 @@ gulp.task('less', function() {
       suffix: '.min'
     }))
     .pipe(minifycss())
+    .pipe(cachebust.resources())
+    .pipe(sourcemaps.write('./maps'))
+    .pipe(rename('application.css'))
     .pipe(gulp.dest('public/css/'))
     .pipe(browserSync.reload({
       stream: true
@@ -109,20 +118,47 @@ gulp.task('bower', function() {
     .pipe(gulp.dest('public/vendor/'));
 });
 
+gulp.task('clean-styles', function() {
+  return gulp.src('public/css/*.+(css|map)', {
+      read: false
+    })
+    .pipe(require('gulp-clean')());
+});
+
+gulp.task('clean-scripts', function() {
+  return gulp.src('public/js/*.+(js|map)', {
+      read: false
+    })
+    .pipe(require('gulp-clean')());
+});
+
 gulp.task('browserify', function() {
-  return browserify('./app/scripts/application.js').bundle()
-    .on('success', gutil.log.bind(gutil, 'Browserify Rebundled'))
-    .on('error', gutil.log.bind(gutil, 'Browserify Error: in browserify gulp task'))
+  var b = browserify({
+    entries: './app/scripts/application.js',
+    debug: true,
+    paths: ['./app/js/controllers', './app/js/factories', './app/js/services', './app/js/directives', './app/js/filters'],
+    transform: [ngAnnotate]
+  });
+
+  return b.bundle()
+    .pipe(source('application.js'))
+    .pipe(buffer())
+    .pipe(cachebust.resources())
+    .pipe(sourcemaps.init({
+      loadMaps: true
+    }))
+    .pipe(uglify())
+    .on('error', gutil.log)
+    .pipe(sourcemaps.write('./maps'))
     // vinyl-source-stream makes the bundle compatible with gulp
-    .pipe(source('application.js')) // Desired filename
-    // Output the file
+    .pipe(rename('application.js'))
     .pipe(gulp.dest('./public/js/'));
 });
 
 gulp.task('lint', function() {
   return gulp.src(['./app/**/*.js', './index.js', './server/**/*.js', './tests/**/*.js'])
-    .pipe(jshint())
-    // .pipe(jshint('.jshintrc'))
+    // .pipe(jshint())
+    .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter(jshint_stylish))
     .pipe(jshint.reporter('fail'))
     .pipe(plumber({
@@ -148,7 +184,9 @@ gulp.task('browser-sync', function() {
 });
 
 gulp.task('bs-reload', function() {
-  browserSync.reload();
+  browserSync.reload({
+    stream: true
+  });
 });
 
 gulp.task('nodemon', function() {
@@ -181,11 +219,13 @@ gulp.task('watch', function() {
   // gulp.watch(paths.public).on('change', livereload.changed);
 });
 
-gulp.task('build', ['jade', 'less', 'static-files', 'images', 'browserify', 'bower', ]);
+
+gulp.task('build', ['jade', 'less', 'static-files', 'images', 'browserify', 'bower', 'bs-reload']);
 gulp.task('heroku:production', ['build']);
 gulp.task('heroku:staging', ['build']);
 gulp.task('production', ['nodemon', 'build']);
 gulp.task('default', ['nodemon', 'watch', 'build']);
 
 // While in development use this
-gulp.task('beer', ['default', 'browser-sync']);
+gulp.task('clean', ['clean-scripts', 'clean-styles']);
+gulp.task('beer', ['clean', 'default', 'browser-sync']);
