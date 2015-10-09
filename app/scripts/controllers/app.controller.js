@@ -1,5 +1,5 @@
 // The main app controller
-var AppController = function($scope, $rootScope, Todo) {
+var AppController = function($scope) {
   $scope.appTitle = 'Todo app';
 };
 

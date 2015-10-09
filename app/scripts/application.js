@@ -1,25 +1,26 @@
 // require('./base')();
 require('angular');
 require('angular-ui-router');
+require('angular-resource');
 
 (function() {
   'use strict';
 
   window.app = angular.module('todoapp', []);
 
-  todoapp.controller('listing', require('./services/list.service'));
-  todoapp.controller('TodoAppController', ['$scope', '$rootScope', 'listing', require('./controllers/app.controller')]);
-  todoapp.controller('TodoController', ['$scope', 'listing', require('./controllers/todo.controller')]);
+  todoapp.factory('Todos', ['$resource', require('./factories/todo.resource')]);
+  todoapp.controller('AppController', ['$scope', require('./controllers/app.controller')]);
+  todoapp.controller('TodoController', ['$scope', 'Todos', require('./controllers/todo.controller')]);
 
   window.app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     function($stateProvider, $urlRouterProvider, $locationProvider) {
-      // For any unmatched url, redirect to /state1
+      // For any unmatched url, redirect to / (root route)
       $urlRouterProvider.otherwise('/');
 
       $stateProvider
         .state('home', {
           url: '/',
-          controller: function($scope) {},
+          controller: 'TodoController',
           templateUrl: 'views/home.html'
         });
 
