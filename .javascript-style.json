@@ -27,11 +27,11 @@
     "process",
     "__dirname",
     "console",
-    "require",
     "exports",
     "element",
     "by",
-    "browser"
+    "browser",
+    "todoapp"
   ],
   "quotmark": true,
   "trailing": true,
