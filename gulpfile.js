@@ -8,7 +8,7 @@ var gulp = require('gulp'),
   bower = require('gulp-bower'),
   gutil = require('gulp-util'),
   jshint = require('gulp-jshint'),
-  jshint_stylish = require('jshint-stylish'),
+  jshintStylish = require('jshint-stylish'),
   uglify = require('gulp-uglify'),
   cache = require('gulp-cache'),
   path = require('path'),
@@ -141,7 +141,7 @@ gulp.task('lint', function() {
   return gulp.src(['./app/**/*.js', './index.js', './server/**/*.js', './tests/**/*.js'])
     // .pipe(jshint())
     .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter(jshint_stylish))
+    .pipe(jshint.reporter(jshintStylish))
     .pipe(jshint.reporter('fail'))
     .pipe(plumber({
       errorHandler: function(error) {
