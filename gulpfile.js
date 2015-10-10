@@ -234,3 +234,6 @@ gulp.task('beer', ['clean', 'default', 'browser-sync']);
 
 // For continuous intergration tools
 gulp.task('ci', ['nodemon', 'browser-sync']);
+
+// For bluemix
+gulp.task('heroku:', ['build']);
