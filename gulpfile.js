@@ -38,8 +38,10 @@ var gulp = require('gulp'),
     unitTests: [
       'public/vendor/angular/angular.min.js',
       'public/vendor/angular-ui-router/release/angular-ui-router.min.js',
+      'public/vendor/angular-resource/angular-resource.min.js',
+      'public/vendor/angular-mocks/angular-mocks.js',
       'public/js/application.js',
-      'tests/unit/**/*.spec.js'
+      'tests/unit/*.spec.js'
     ],
     libTests: ['public/vendor/tests/**/*.js'],
     styles: 'app/styles/*.+(less|css)'
@@ -229,3 +231,6 @@ gulp.task('default', ['nodemon', 'watch', 'build']);
 // While in development use this
 gulp.task('clean', ['clean-scripts', 'clean-styles']);
 gulp.task('beer', ['clean', 'default', 'browser-sync']);
+
+// For continuous intergration tools
+gulp.task('ci', ['nodemon', 'browser-sync']);
