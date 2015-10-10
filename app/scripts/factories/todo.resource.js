@@ -1,9 +1,9 @@
-  function todoResource($resource) {
-    return $resource('/api/todos/:id', null, {
-      update: {
-        method: 'PUT' // This method issues a PUT request
-      }
-    });
-  }
+function todoResource($resource) {
+  return $resource('/api/todos/:id', null, {
+    update: {
+      method: 'PUT' // This method issues a PUT request
+    }
+  });
+}
 
-  module.exports = todoResource;
+module.exports = todoResource;

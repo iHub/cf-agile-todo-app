@@ -8,7 +8,7 @@ var gulp = require('gulp'),
   bower = require('gulp-bower'),
   gutil = require('gulp-util'),
   jshint = require('gulp-jshint'),
-  jshint_stylish = require('jshint-stylish'),
+  jshintStylish = require('jshint-stylish'),
   uglify = require('gulp-uglify'),
   cache = require('gulp-cache'),
   path = require('path'),
@@ -72,6 +72,46 @@ gulp.task('e2e', function(done) {
     });
 });
 
+gulp.task('bower', function() {
+  return bower()
+    .pipe(gulp.dest('public/vendor/'));
+});
+
+gulp.task('clean-styles', function() {
+  return gulp.src('public/css/**/*.+(css|map)', {
+      read: false
+    })
+    .pipe(require('gulp-clean')());
+});
+
+gulp.task('clean-scripts', function() {
+  return gulp.src('public/js/*.+(js|map)', {
+      read: false
+    })
+    .pipe(require('gulp-clean')());
+});
+
+gulp.task('images', function() {
+  gulp.src(paths.images)
+    .pipe(imagemin({
+      optimizationLevel: 3,
+      progressive: true,
+      interlaced: true
+    }))
+    .pipe(gulp.dest('./public/images/'));
+});
+
+gulp.task('static-files', function() {
+  return gulp.src(paths.staticFiles)
+    .pipe(gulp.dest('public/'));
+});
+
+gulp.task('jade', function() {
+  gulp.src(paths.jade)
+    .pipe(jade())
+    .pipe(gulp.dest('./public/'));
+});
+
 gulp.task('less', function() {
   gulp.src(paths.styles)
     .pipe(plumber({
@@ -97,39 +137,18 @@ gulp.task('less', function() {
     }))
 });
 
-gulp.task('jade', function() {
-  gulp.src(paths.jade)
-    .pipe(jade())
-    .pipe(gulp.dest('./public/'));
-});
-
-gulp.task('images', function() {
-  gulp.src(paths.images)
-    .pipe(imagemin({
-      optimizationLevel: 3,
-      progressive: true,
-      interlaced: true
-    }))
-    .pipe(gulp.dest('./public/images/'));
-});
-
-gulp.task('bower', function() {
-  return bower()
-    .pipe(gulp.dest('public/vendor/'));
-});
-
-gulp.task('clean-styles', function() {
-  return gulp.src('public/css/*.+(css|map)', {
-      read: false
-    })
-    .pipe(require('gulp-clean')());
-});
-
-gulp.task('clean-scripts', function() {
-  return gulp.src('public/js/*.+(js|map)', {
-      read: false
-    })
-    .pipe(require('gulp-clean')());
+gulp.task('lint', function() {
+  return gulp.src(['./app/**/*.js', './index.js', './server/**/*.js', './tests/**/*.js'])
+    // .pipe(jshint())
+    .pipe(jshint('.jshintrc'))
+    .pipe(jshint.reporter(jshintStylish))
+    .pipe(jshint.reporter('fail'))
+    .pipe(plumber({
+      errorHandler: function(error) {
+        console.log(error.message);
+        this.emit('end');
+      }
+    }));
 });
 
 gulp.task('browserify', function() {
@@ -153,25 +172,6 @@ gulp.task('browserify', function() {
     // vinyl-source-stream makes the bundle compatible with gulp
     .pipe(rename('application.js'))
     .pipe(gulp.dest('./public/js/'));
-});
-
-gulp.task('lint', function() {
-  return gulp.src(['./app/**/*.js', './index.js', './server/**/*.js', './tests/**/*.js'])
-    // .pipe(jshint())
-    .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter(jshint_stylish))
-    .pipe(jshint.reporter('fail'))
-    .pipe(plumber({
-      errorHandler: function(error) {
-        console.log(error.message);
-        this.emit('end');
-      }
-    }));
-});
-
-gulp.task('static-files', function() {
-  return gulp.src(paths.staticFiles)
-    .pipe(gulp.dest('public/'));
 });
 
 gulp.task('browser-sync', function() {
