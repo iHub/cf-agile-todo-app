@@ -7,8 +7,6 @@ var AppController = function($scope) {
     githubHandler: '@kn9ts',
     twitterHandler: '@kn9ts'
   };
-
-  console.log($scope.appTitle);
 };
 
 module.exports = AppController;
