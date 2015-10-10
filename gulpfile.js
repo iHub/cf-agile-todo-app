@@ -231,3 +231,6 @@ gulp.task('default', ['nodemon', 'watch', 'build']);
 // While in development use this
 gulp.task('clean', ['clean-scripts', 'clean-styles']);
 gulp.task('beer', ['clean', 'default', 'browser-sync']);
+
+// For continuous intergration tools
+gulp.task('ci', ['nodemon', 'browser-sync']);
