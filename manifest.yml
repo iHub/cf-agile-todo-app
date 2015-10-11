@@ -1,0 +1,3 @@
+name: agile-todoapp
+buildpack: https://github.com/krry/heroku-buildpack-nodejs-gulp-bower.git
+command: node index.js
