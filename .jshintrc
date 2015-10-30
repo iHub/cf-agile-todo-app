@@ -1,7 +1,5 @@
-/**!
- * See http://www.jshint.com/docs/options/ for all available options.
- */
 {
+  "strict": false,
   "node": true,
   "browser": true,
   "esnext": true,
