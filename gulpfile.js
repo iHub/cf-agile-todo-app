@@ -216,7 +216,7 @@ gulp.task('watch', function() {
   // livereload.listen({ port: 35729 });
   gulp.watch(paths.jade, ['jade', 'bs-reload']);
   gulp.watch(paths.styles, ['less', 'bs-reload']);
-  gulp.watch(paths.scripts, ['lint', 'browserify', 'bs-reload']);
+  gulp.watch(paths.scripts, ['browserify', 'bs-reload']);
   gulp.watch(['./gulpfile.js'], ['build']);
   // gulp.watch(paths.public).on('change', livereload.changed);
 });
