@@ -3,7 +3,7 @@
   "browser": true,
   "browserify": true,
   "node": true,
-   "module": true,
+  "module": true,
   "devel": true,
   "jasmine": true,
   "mocha": true,
