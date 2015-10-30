@@ -1,6 +1,6 @@
 // The main app controller
 var AppController = function($scope) {
-  $scope.appTitle = 'myTodo app';
+  $scope.appTitle = 'Todo app';
   $scope.appAuthor = {
     name: 'Eugene Mutai',
     email: 'eugenemutai@gmail.com',
