@@ -1,7 +1,12 @@
 {
   "strict": false,
-  "node": true,
   "browser": true,
+  "browserify": true,
+  "node": true,
+   "module": true,
+  "devel": true,
+  "jasmine": true,
+  "mocha": true,
   "esnext": true,
   "bitwise": true,
   "camelcase": true,
