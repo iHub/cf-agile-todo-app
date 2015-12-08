@@ -1,7 +1,7 @@
 describe('Todolist app', function() {
 
   beforeEach(function() {
-    browser.get('http://localhost:3000');
+    browser.get('http://localhost:3333');
   });
 
   it('The app title is \'Todo app\'', function() {
