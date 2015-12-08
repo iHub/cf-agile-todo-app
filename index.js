@@ -68,7 +68,7 @@ app.use(function(err, req, res) {
   });
 });
 
-var server = app.listen(process.env.PORT || 3000, function() {
+var server = app.listen(process.env.PORT || 3333, function() {
   console.log('Express server listening on %d, in %s mode', server.address().port, app.get('env'));
 });
 
