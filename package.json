@@ -83,6 +83,6 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "engines": {
-    "node": ">=0.12.5"
+    "node": "^4.2.2"
   }
 }
