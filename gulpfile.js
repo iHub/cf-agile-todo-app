@@ -141,7 +141,6 @@ gulp.task('less', function() {
 
 gulp.task('lint', function() {
   return gulp.src(['./app/**/*.js', './index.js', './server/**/*.js', './tests/**/*.js'])
-    // .pipe(jshint())
     .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter(jshintStylish))
     .pipe(jshint.reporter('fail'))
@@ -178,10 +177,10 @@ gulp.task('browserify', function() {
 
 gulp.task('browser-sync', function() {
   browserSync.init(null, {
-    proxy: 'http://localhost:3000',
+    proxy: 'http://localhost:3333',
     files: ['public/**/*.*'],
     browser: 'google chrome',
-    port: 3880,
+    port: 3000,
   });
 });
 
@@ -213,20 +212,16 @@ gulp.task('nodemon', function() {
 });
 
 gulp.task('watch', function() {
-  // livereload.listen({ port: 35729 });
-  gulp.watch(paths.jade, ['jade', 'bs-reload']);
-  gulp.watch(paths.styles, ['less', 'bs-reload']);
-  gulp.watch(paths.scripts, ['browserify', 'bs-reload']);
+  gulp.watch(paths.jade, ['jade'], browserSync.reload);
+  gulp.watch(paths.styles, ['less'], browserSync.reload);
+  gulp.watch(paths.scripts, ['browserify'], browserSync.reload);
   gulp.watch(['./gulpfile.js'], ['build']);
-  // gulp.watch(paths.public).on('change', livereload.changed);
 });
 
-
-gulp.task('build', ['jade', 'less', 'static-files', 'images', 'browserify', 'bower', 'bs-reload']);
-gulp.task('heroku:production', ['build']);
-gulp.task('heroku:staging', ['build']);
-gulp.task('production', ['nodemon', 'build']);
+// Default configs
+gulp.task('build', ['jade', 'less', 'static-files', 'images', 'browserify'], browserSync.reload);
 gulp.task('default', ['nodemon', 'watch', 'build']);
+gulp.task('production', ['nodemon', 'build']);
 
 // While in development use this
 gulp.task('clean', ['clean-scripts', 'clean-styles']);
@@ -234,3 +229,7 @@ gulp.task('beer', ['clean', 'default', 'browser-sync']);
 
 // For continuous intergration tools
 gulp.task('ci', ['nodemon', 'browser-sync']);
+
+// For heroku
+gulp.task('heroku:production', ['bower', 'build']);
+gulp.task('heroku:staging', ['bower', 'build']);
