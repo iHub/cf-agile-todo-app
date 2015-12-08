@@ -23,7 +23,7 @@ var TodoController = function($scope, Todos) {
 
     Todos.save(newTodo, function() {
         // Saves serialised newTodo object as JSON and send as POST body
-        console.log("Task has been added/saved.");
+        console.log('Task has been added/saved.');
         $scope.taskList.push(newTodo);
       })
       .$promise

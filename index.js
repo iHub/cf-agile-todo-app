@@ -60,7 +60,7 @@ if (env === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use(function(err, req, res) {
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
@@ -68,7 +68,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-var server = app.listen(process.env.PORT || 3000, function() {
+var server = app.listen(process.env.PORT || 3333, function() {
   console.log('Express server listening on %d, in %s mode', server.address().port, app.get('env'));
 });
 
